@@ -1,8 +1,11 @@
 import streamlit as st
+
+st.set_page_config(page_title="Smart FAQ Bot", page_icon="📘")
+
 from rag_core import answer_with_rag, get_collection
 
 
-@st.cache_resource
+@st.cache_resource(show_spinner="Building the manual index (first run only)...")
 def ensure_index():
     """Build the ChromaDB index from the manual if it doesn't exist yet (needed on the cloud)."""
     try:
@@ -18,10 +21,9 @@ def ensure_index():
 
 
 ensure_index()
-st.set_page_config(page_title="Smart FAQ Bot", page_icon="📘")
+
 st.title("📘 Smart FAQ Bot for Product Manuals")
 st.caption("Answers come only from the loaded product manual, with page references.")
-
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
